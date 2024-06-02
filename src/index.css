@@ -1,0 +1,15 @@
+@tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+  
+  body{
+    font-family: "Poppins", sans-serif; 
+  }
+  h1{
+    font-size: 36px;
+    font-weight: 600;
+  }
+  h2{
+    font-size: 28px;
+    font-weight: 600;
+  }
