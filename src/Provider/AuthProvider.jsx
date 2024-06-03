@@ -1,44 +1,63 @@
 import { app } from "@/Firebase/firebase.config";
-import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import useAxiosPublic from "@/Utils/Hook/useAxiosPublic";
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
- 
 
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
+  const axiosPublic = useAxiosPublic();
   const auth = getAuth(app);
   const googleProvider = new GoogleAuthProvider();
-  const [user, setUser] = useState(null)
-const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const googleLogin = () => {
-    signInWithPopup(auth, googleProvider);
+   return signInWithPopup(auth, googleProvider);
   };
- const loginWithEmailPassword = async (email, password )=>{
- return  createUserWithEmailAndPassword(auth, email, password)
- 
- }
+  const loginWithEmailPassword = async (email, password) => {
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
 
- const login = (email, password)=>{
+  const login = (email, password) => {
+    return signInWithEmailAndPassword(auth, email, password);
+  };
 
-  return signInWithEmailAndPassword(auth, email, password)
- }
- 
   const logOut = async () => {
-  
+    await axiosPublic.get("/logout", {withCredentials:true})
+
     return signOut(auth);
-  }
+  };
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
-
-      if (currentUser) { 
-        // const userInfo = { email: currentUser?.email }; 
-      //  todo access token
-        setLoading(false);
-       
-      
+     
+      if (currentUser) {
+        const userInfo = { email: currentUser?.email };
+        const userRole = {
+          email: currentUser?.email,
+          role: "user",
+          status: "verified",
+        };
+        await axiosPublic.put(`/user`, userRole);
+        try {
+          const { data } = await axiosPublic.post(`/jwt`, userInfo,{withCredentials:true});
+        
+ 
+            setLoading(false);
+           
+        } catch (error) {
+          console.log(error.message);
+        }
       } else {
-        // TODO: delete token 
+        // TODO: delete token
         setLoading(false);
 
       }
@@ -46,8 +65,7 @@ const [loading, setLoading] = useState(true)
     return () => {
       unSubscribe();
     };
-  }, [auth]);
-
+  }, [auth,axiosPublic]);
 
   const authInfo = {
     loading,
@@ -56,7 +74,7 @@ const [loading, setLoading] = useState(true)
     user,
     googleLogin,
     logOut,
-    loginWithEmailPassword, 
+    loginWithEmailPassword,
   };
 
   return (

@@ -15,9 +15,19 @@ import { Link, NavLink } from "react-router-dom";
 import Bars from "./Bars";
 import { ProfileImage } from "./ProfileImage";
 const Navbar = () => {
-  const { user } = useAuth();
+  const { user,logOut } = useAuth();
 
   const [setBars, setSetBars] = useState(false);
+
+
+
+  const sinOut = async()=>{
+    try {
+      logOut()
+    } catch (error) {
+      console.log(error)
+    }
+  }
   // menu control start
   const menuItem = (
     <>
@@ -97,13 +107,16 @@ const Navbar = () => {
               </Link>
             </>
           )}
-        {user &&  <MenubarMenu className="bg-blue-700">
+    {user &&  <div className="flex gap-4">
+      <span className="p-3 bg-gray-800 rounded-lg cursor-pointer" onClick={sinOut}> Sign Out</span  >
+
+    <MenubarMenu className="bg-blue-700">
             <MenubarTrigger>
               <ProfileImage />
             </MenubarTrigger>
             <MenubarContent>
               <MenubarRadioGroup value="benoit">
-                <MenubarRadioItem value="andy">Andy</MenubarRadioItem>
+                <MenubarRadioItem value="andy"><Link to="/dashboard">Dashboard</Link></MenubarRadioItem>
                 <MenubarRadioItem value="benoit">Benoit</MenubarRadioItem>
                 <MenubarRadioItem value="Luis">Luis</MenubarRadioItem>
               </MenubarRadioGroup>
@@ -112,7 +125,8 @@ const Navbar = () => {
               <MenubarSeparator />
               <MenubarItem inset>Add Profile...</MenubarItem>
             </MenubarContent>
-          </MenubarMenu>}
+          </MenubarMenu>
+    </div>}
         </div>
       </Menubar>
     </div>
