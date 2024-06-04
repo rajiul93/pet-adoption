@@ -59,6 +59,7 @@ const Navbar = () => {
           </li>
         </NavLink>
       </MenubarMenu>
+    
     </>
   );
   const handleBars = () => {

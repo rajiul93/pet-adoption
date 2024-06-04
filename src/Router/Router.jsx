@@ -7,6 +7,7 @@ import MyDonation from "@/Dashboard/UserDashboard/MyDonation/MyDonation";
 import MyPet from "@/Dashboard/UserDashboard/MyPet/MyPet";
 import Profile from "@/Dashboard/UserDashboard/Profile/Profile";
 import Blog from "@/Page/Blog/Blog";
+import Details from "@/Page/Details/Details";
 import DonationCamping from "@/Page/DonationCamping/DonationCamping";
 import Home from "@/Page/Home/Home";
 import Login from "@/Page/LoginRegistration/Login/Login";
@@ -39,6 +40,10 @@ export const router = createBrowserRouter([
       {
         path: "/blog",
         element: <Blog />,
+      },
+      {
+        path: "/details/:id",
+        element: <Details />,
       },
     ],
   },

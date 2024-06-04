@@ -1,9 +1,11 @@
 import Subscribe from "@/Share/Subscribe/Subscribe";
+import usePet from "@/Utils/Hook/getPet/usePet";
 import CategoryDropdown from "./CategoryDropdown/CategoryDropdown";
 import DateFilter from "./DateFilter/DateFilter";
 import PetCard from "./PetCard/PetCard";
 
 const PetListing = () => {
+  const [pet] = usePet() 
   return (
     <div className="">
       <div
@@ -33,11 +35,11 @@ const PetListing = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 z-10">
-        <PetCard />
-        <PetCard />
-        <PetCard />
-        <PetCard />
-        <PetCard />
+        {
+          pet.map(item =><PetCard key={item._id} item={item}></PetCard>)
+        }
+        
+     
       </div>
       <Subscribe />
     </div>

@@ -3,10 +3,9 @@ import {
     TableBody,
     TableCaption,
     TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
-    TableRow,
+    TableRow
 } from "@/components/ui/table";
    
   const invoices = [
@@ -58,11 +57,11 @@ import {
 
 const AdoptionRequest = () => {
     return (
-       <>
+       <div className=" overflow-x-auto">
        <h2 className="text-center my-14">Adoption For Request </h2>
        <Table>
       <TableCaption>A list of your recent invoices.</TableCaption>
-      <TableHeader>
+      <TableHeader className="sticky">
         <TableRow>
           <TableHead className="w-[100px]">Image</TableHead>
           <TableHead>Status</TableHead>
@@ -78,17 +77,13 @@ const AdoptionRequest = () => {
             <TableCell>{invoice.paymentStatus}</TableCell>
             <TableCell>{invoice.paymentMethod}</TableCell>
             <TableCell className="text-right">{invoice.totalAmount}</TableCell>
+            <TableCell className="text-right">{invoice.totalAmount}</TableCell>
           </TableRow>
         ))}
       </TableBody>
-      <TableFooter>
-        <TableRow>
-          <TableCell colSpan={3}>Total</TableCell>
-          <TableCell className="text-right">$2,500.00</TableCell>
-        </TableRow>
-      </TableFooter>
+    
     </Table>
-       </>
+       </div>
     );
 };
 
