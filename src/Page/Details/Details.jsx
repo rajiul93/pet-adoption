@@ -1,8 +1,8 @@
 import Subscribe from "@/Share/Subscribe/Subscribe";
 import useAxiosPublic from "@/Utils/Hook/useAxiosPublic";
-import { Button } from "@/components/ui/button";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
+import Modal from "./Modal/Modal";
 
 const Details = () => {
   const axiosPublic = useAxiosPublic();
@@ -70,7 +70,7 @@ const Details = () => {
                 Age:{age} Years
               </li>
               <hr />
-              <Button >Adoption</Button>
+           <Modal pet={pet} />
             </ul>
           </div>
         </div>
