@@ -47,7 +47,7 @@ const Navbar = () => {
       <MenubarMenu>
         <NavLink to="/campaigns">
           <li className="text-xl list-none ms-4 font-bold cursor-pointer">
-            Donation Campaigns{" "}
+            Donation Campaigns 
           </li>
         </NavLink>
       </MenubarMenu>

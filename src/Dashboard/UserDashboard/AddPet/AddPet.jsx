@@ -28,6 +28,7 @@ const AddPet = () => {
     const division = data.division;
     const category = data.category;
     const message = data.message;
+    const status = "waiting"
 
     try {
       const res = await axiosPublic.post(image_hosting_api, imageFile, {
@@ -49,6 +50,7 @@ const AddPet = () => {
           category,
           message,
           photoURL,
+          status
         };
         const res = await axiosPublic.post("/adopt-post", petInfo)
         console.log(res.data)

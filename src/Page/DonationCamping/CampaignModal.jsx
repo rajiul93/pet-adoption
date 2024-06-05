@@ -16,7 +16,10 @@ import { useRef } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import AdoptionForm from "./AdoptionForm/AdoptionForm";
 
-const Modal = ({pet}) => {
+
+const CampaignModal = () => {
+
+
     const axiosSecure = useAxiosSecure()
     const inputRef = useRef(null);
     const {user} = useAuth()
@@ -43,7 +46,8 @@ const Modal = ({pet}) => {
          }
     }
     return (
-     <>
+        <div>
+                <>
      <Toaster />
      <AlertDialog>
         <AlertDialogTrigger asChild>
@@ -63,7 +67,8 @@ const Modal = ({pet}) => {
         </AlertDialogContent>
       </AlertDialog>
      </>
+        </div>
     );
 };
 
-export default Modal;
+export default CampaignModal;
