@@ -2,15 +2,14 @@ import useAuth from "@/Provider/useAuth";
 import useAxiosPublic from "@/Utils/Hook/useAxiosPublic";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 const api = import.meta.env.VITE_IMG_API;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${api}`;
 const Campaign = () => {
 
   const {
     register,
-    handleSubmit,
-    watch,
+    handleSubmit, 
     formState: { errors },
   } = useForm()
   const axiosPublic = useAxiosPublic();
@@ -24,10 +23,11 @@ const Campaign = () => {
     const category =data.category
     const sortDes =data.sortDes
     const date =data.date
-    const maxAmount =data.maxAmount
+    const maxAmount =parseInt(data.amount)
     const longDes =data.longDes
     const userEmail= user.email;
     const userName = user.displayName
+    const totalDonation = user.totalDonation
     try {
       const res = await axiosPublic.post(image_hosting_api, imageFile, {
         headers: {
@@ -48,8 +48,10 @@ const Campaign = () => {
           category,
           userEmail,
           photoURL,
-          userName
+          userName,
+          totalDonation
         };
+        console.log(campaignInfo)
         const res = await axiosPublic.post("/donation-for-post", campaignInfo) 
         if (res.data.acknowledged) {
           toast.success("successfully saved")
@@ -61,13 +63,14 @@ const Campaign = () => {
     }
   }
   return (
-    <div className="mx-14 mt-10 border-2 border-blue-400 rounded-lg">
+    <div className=" mx-2 md:mx-14 mt-10 border-2 md:border-blue-400 rounded-lg">
+    <Toaster />
       <div className="mt-10 text-center font-bold">Campaign</div>
       <div className="mt-3 text-center text-4xl font-bold">
         Make an Campaign
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="p-8">
-        <div className="flex gap-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="md:p-8">
+        <div className="md:flex gap-4">
          <div className="w-full">
          <input
             type="Name"
@@ -90,7 +93,7 @@ const Campaign = () => {
 
         </div>
         </div>
-        <div className="my-6 flex gap-4">
+        <div className="my-6 md:flex gap-4">
           <div className="w-full">
           <select
                 {...register("category", { required: true })}
@@ -130,14 +133,14 @@ const Campaign = () => {
 
         </div>
         </div>
-        <div className="flex mb-6 gap-4">
+        <div className="md:flex mb-6 gap-4">
     <div className="w-full">
     <input
             type="date"
             name="name"
             {...register("date", {required:true})}
 
-            className="mt-1 block w-1/2 rounded-md border border-slate-300 bg-white px-3 py-4 placeholder-slate-400 shadow-sm placeholder:font-semibold placeholder:text-gray-500 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
+            className="mt-1 block md:w-1/2 rounded-md border border-slate-300 bg-white px-3 py-4 placeholder-slate-400 shadow-sm placeholder:font-semibold placeholder:text-gray-500 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
             placeholder="Title  *"
           />
           {errors.date && <span>This field is required</span>}
@@ -176,7 +179,8 @@ const Campaign = () => {
             id="text"
             cols="30"
             rows="10"
-            className="mb-10 h-40 w-full resize-none rounded-md border border-slate-300 p-5 font-semibold text-gray-300"
+            className="mb-10 h-40 w-full resize-none rounded-md border
+             border-slate-300 p-5 font-semibold text-gray-300"
           >
             Message
           </textarea>

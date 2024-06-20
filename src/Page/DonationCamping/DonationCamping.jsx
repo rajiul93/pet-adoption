@@ -1,9 +1,11 @@
 import Subscribe from "@/Share/Subscribe/Subscribe";
+import useCampaign from "@/Utils/Hook/Campaign/useCampaign";
 import CategoryDropdown from "../PetListing/CategoryDropdown/CategoryDropdown";
-import DateFilter from "../PetListing/DateFilter/DateFilter";
 import CampaignCard from "./CampaignCard";
 
 const DonationCamping = () => {
+  const [campaign] = useCampaign()
+  console.log(campaign)
   return (
     <div>
       <div className="grid grid-cols-6 gap-6">
@@ -15,10 +17,10 @@ const DonationCamping = () => {
         }}
       >
         <div>
-          <h1>Pet Listing</h1>
+          <h1>Pet Campaign</h1>
           <p>egin the process of welcoming a new furry friend into your home</p>
         </div>
-        <DateFilter />
+        {/* <DateFilter /> */}
       </div>
 <div className="col-span-2 my-14 ">
 <img src="https://i.pinimg.com/originals/60/fe/24/60fe24c86f20a05998a8c34fd99ceec8.jpg" alt="" />
@@ -36,7 +38,10 @@ const DonationCamping = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 z-10">
-<CampaignCard />
+        {
+          campaign.map(item=> <CampaignCard key={item._id} item={item} />)
+        }
+
       </div>
       <Subscribe />
     </div>

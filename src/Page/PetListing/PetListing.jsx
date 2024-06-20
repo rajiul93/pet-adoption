@@ -1,11 +1,15 @@
 import Subscribe from "@/Share/Subscribe/Subscribe";
-import usePet from "@/Utils/Hook/getPet/usePet";
+import { useState } from "react";
 import CategoryDropdown from "./CategoryDropdown/CategoryDropdown";
-import DateFilter from "./DateFilter/DateFilter";
-import PetCard from "./PetCard/PetCard";
+import PetListingContainer from "./PetListingContainer/PetListingContainer";
 
-const PetListing = () => {
-  const [pet] = usePet() 
+const PetListing = () => { 
+  const [category, setCategory] = useState("")
+
+  const handleCategory=(name)=>{
+    setCategory(name)
+ }
+ console.log(category)
   return (
     <div className="">
       <div
@@ -20,7 +24,7 @@ const PetListing = () => {
         <p>egin the process of welcoming a new furry friend into your home</p>
 
         </div>
-        <DateFilter />
+     
 
       </div>
       <div className="flex justify-between">
@@ -29,17 +33,17 @@ const PetListing = () => {
           <div>
           </div>
           <div>
-            <CategoryDropdown />
+            <CategoryDropdown handleCategory={handleCategory}/>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 z-10">
-        {
+      <div className="z-10">
+        {/* {
           pet.map(item =><PetCard key={item._id} item={item}></PetCard>)
-        }
+        } */}
         
-     
+     <PetListingContainer  category={category}/>
       </div>
       <Subscribe />
     </div>

@@ -59,7 +59,15 @@ const DashboardNav = () => {
             <MdPets className="text-4xl md:text-xl mr-2"/>
               <span className="hidden md:block">My Added Pet</span>
             </NavLink>
-            <hr />
+          
+            <NavLink
+              to="/dashboard/my-create-campaign"
+              className="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700"
+            >
+            <MdPets className="text-4xl md:text-xl mr-2"/>
+              <span className="hidden md:block">My Campaign</span>
+            </NavLink>
+         
             <NavLink
               to="/"
               className="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700"

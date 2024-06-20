@@ -1,9 +1,32 @@
-
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
+import AllCampaign from './AllCampaign/AllCampaign';
+import AllPet from './AllPet/AllPet';
+import AllUser from './AllUser/AllUser';
+import UserStatus from './UserStatus/UserStatus';
 const AdminProfile = () => {
     return (
-        <div>
-            Admin profile
-        </div>
+    <>
+    <UserStatus />
+        <Tabs>
+        <TabList>
+          <Tab>Users</Tab>
+          <Tab>Pets</Tab>
+          <Tab>Campaigns</Tab>
+        </TabList>
+    
+        <TabPanel>
+         <AllUser />
+        </TabPanel>
+        <TabPanel>
+          <AllPet />
+        </TabPanel>
+        <TabPanel>
+          {/* <AllPet /> */}
+         <AllCampaign />
+        </TabPanel>
+      </Tabs>
+    </>
     );
 };
 

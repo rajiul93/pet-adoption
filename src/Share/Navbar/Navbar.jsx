@@ -19,11 +19,14 @@ const Navbar = () => {
 
   const [setBars, setSetBars] = useState(false);
 
-
+ 
 
   const sinOut = async()=>{
+    console.log("first")
     try {
-      logOut()
+    const res = await logOut()
+    console.log(res)
+    
     } catch (error) {
       console.log(error)
     }
@@ -74,7 +77,7 @@ const Navbar = () => {
   // menu control end
   return (
     <div style={{ backgroundColor: "#483786" }}>
-      <Menubar className="flex max-w-6xl mx-auto bg-transparent  py-8  justify-between border-0 text-white">
+      <Menubar className="flex max-w-6xl mx-auto bg-transparent  py-8  justify-between border-0 text-white z-">
         <div>
           <div className="flex gap-3">
             <div onClick={handleBars} className="cursor-pointer">
@@ -90,13 +93,13 @@ const Navbar = () => {
             <div
               className={`${
                 setBars ? "hidden" : ""
-              }   md:hidden absolute bg-slate-400 w-52 p-4 rounded-md top-24`}
+              }   md:hidden absolute bg-slate-400 w-52 p-4 rounded-md z-50 top-24`}
             >
               {menuItem}
             </div>
           </div>
         </div>
-        <div className="hidden md:flex md:block ">{menuItem}</div>
+        <div className="hidden z-50 md:flex md:block ">{menuItem}</div>
         <div className="flex items-center gap-4">
           {!user && (
             <>

@@ -38,20 +38,27 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
-     
+
+      setLoading(false);
       if (currentUser) {
         const userInfo = { email: currentUser?.email };
+ 
         const userRole = {
           email: currentUser?.email,
           role: "user",
           status: "verified",
+          name: currentUser?.displayName,
+          img:currentUser?.photoURL
         };
         await axiosPublic.put(`/user`, userRole);
+        setLoading(false);
+
         try {
+          
           const { data } = await axiosPublic.post(`/jwt`, userInfo,{withCredentials:true});
+      setLoading(false);
         
  
-            setLoading(false);
            
         } catch (error) {
           console.log(error.message);

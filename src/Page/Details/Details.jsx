@@ -18,6 +18,8 @@ const Details = () => {
   if (isLoading) {
     return <>Loading..........</>
   }
+
+
   const {
     photoURL,
     name,
@@ -28,8 +30,11 @@ const Details = () => {
     email,
     division,
     district,
+    postDate
   } = pet;
-
+  const localDate =new Date(postDate)
+  console.log(localDate)
+ 
   return (
     <main className="container mx-auto mt-8">
       <div className="flex flex-wrap justify-between">
@@ -41,6 +46,7 @@ const Details = () => {
           />
           <h2 className="text-4xl font-bold mt-4 mb-2">{name}</h2>
           <p className="text-gray-700 mb-4">{message}</p>
+          <p className="text-gray-700 mb-4">{pet?.postDate &&  `${localDate.getFullYear()}/${localDate.getUTCMonth() + 1}/${localDate.getUTCDate()}`}</p>
         </div>
         <div className="w-full md:w-4/12 px-4 mb-8">
           <div className="bg-gray-100 px-4 py-6 rounded">

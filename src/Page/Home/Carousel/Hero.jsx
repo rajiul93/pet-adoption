@@ -3,7 +3,7 @@ import Slider from "../Slider/Slider";
 
 const Hero = () => {
   return (
-    <div className="flex-row-reverse md:flex max-w-6xl px-2 mx-auto justify-around rounded-3xl min-h-[500px] md:p-10  mt-10 " style={{backgroundColor: "#483786"}}>
+    <div className="flex-row-reverse z-0 md:flex max-w-6xl px-2 mx-auto justify-around rounded-3xl min-h-[500px] md:p-10  mt-10 " style={{backgroundColor: "#483786"}}>
       
       <div>
         <Slider />
