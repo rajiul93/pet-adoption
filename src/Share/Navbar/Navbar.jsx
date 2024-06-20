@@ -3,12 +3,10 @@ import { Button } from "@/components/ui/button";
 import {
   Menubar,
   MenubarContent,
-  MenubarItem,
   MenubarMenu,
   MenubarRadioGroup,
   MenubarRadioItem,
-  MenubarSeparator,
-  MenubarTrigger,
+  MenubarTrigger
 } from "@/components/ui/menubar";
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
@@ -112,7 +110,6 @@ const Navbar = () => {
             </>
           )}
     {user &&  <div className="flex gap-4">
-      <span className="p-3 bg-gray-800 rounded-lg cursor-pointer" onClick={sinOut}> Sign Out</span  >
 
     <MenubarMenu className="bg-blue-700">
             <MenubarTrigger>
@@ -120,14 +117,12 @@ const Navbar = () => {
             </MenubarTrigger>
             <MenubarContent>
               <MenubarRadioGroup value="benoit">
-                <MenubarRadioItem value="andy"><Link to="/dashboard">Dashboard</Link></MenubarRadioItem>
-                <MenubarRadioItem value="benoit">Benoit</MenubarRadioItem>
-                <MenubarRadioItem value="Luis">Luis</MenubarRadioItem>
+              <Link to="/dashboard"> <MenubarRadioItem value="andy">Dashboard</MenubarRadioItem></Link>
+                
               </MenubarRadioGroup>
-              <MenubarSeparator />
-              <MenubarItem inset>Edit...</MenubarItem>
-              <MenubarSeparator />
-              <MenubarItem inset>Add Profile...</MenubarItem>
+               
+                <MenubarRadioItem  onClick={sinOut} value="andy" className="text-red-500">Sign Out</MenubarRadioItem> 
+
             </MenubarContent>
           </MenubarMenu>
     </div>}

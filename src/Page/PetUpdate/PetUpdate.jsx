@@ -35,8 +35,11 @@ const PetUpdate = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+
   const handleSelect = (date)=>{
-    setTakeDate(date); // native Date object
+    console.log(date)
+    setTakeDate(date);
   }
 
 
@@ -86,13 +89,14 @@ const PetUpdate = () => {
     <div>
       <Toaster />
       <div className="bg-white border rounded-lg px-8 py-6 mx-auto my-8 max-w-2xl">
+      <Calendar
+        date={new Date()}
+        onChange={handleSelect} 
+      />
         <h2 className="text-2xl font-medium mb-4 uppercase text-yellow-400">
           Update your pet for adoption
         </h2>
-        <Calendar
-        date={new Date()}
-        onChange={handleSelect}
-      />
+        
         <img
           width={50}
           src={singleData?.photoURL && singleData?.photoURL}

@@ -29,7 +29,7 @@ const AdoptionForm = ({pet, user,inputRef}) => {
               <div>
                 <label  className="block text-sm font-bold ml-1 mb-2 dark:text-white">Email</label>
                 <div className="relative">
-                  <input defaultValue={user?.email} disabled className="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm" required aria-describedby="email-error" />
+                  <input defaultValue={user?.displayName} disabled className="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm" required aria-describedby="email-error" />
                 </div> </div>
               
               <div>

@@ -3,13 +3,23 @@ import { useState } from "react";
 import CategoryDropdown from "./CategoryDropdown/CategoryDropdown";
 import PetListingContainer from "./PetListingContainer/PetListingContainer";
 
-const PetListing = () => { 
-  const [category, setCategory] = useState("")
+const PetListing = () => {
+  const [category, setCategory] = useState("");
+  const [search, setSearch] = useState("")
 
-  const handleCategory=(name)=>{
-    setCategory(name)
- }
- console.log(category)
+  const handleCategory = (name) => {
+    setSearch("")
+    setCategory(name);
+  };
+
+const handleSearch = (e) =>{
+  e.preventDefault()
+  setCategory('');
+  const text = e.target.name.value;
+  setSearch(text)
+
+}
+
   return (
     <div className="">
       <div
@@ -20,20 +30,20 @@ const PetListing = () => {
         }}
       >
         <div>
-        <h1>Pet Listing</h1>
-        <p>egin the process of welcoming a new furry friend into your home</p>
-
+          <h1>Pet Listing</h1>
+          <p>egin the process of welcoming a new furry friend into your home</p>
         </div>
-     
-
       </div>
       <div className="flex justify-between">
         <div></div>
         <div className="flex gap-4">
-          <div>
-          </div>
-          <div>
-            <CategoryDropdown handleCategory={handleCategory}/>
+          <div></div>
+          <div className="flex gap-4 items-center ">
+            <form onSubmit={handleSearch} className="border rounded-lg p-2">
+              <input name="name"  className="p-1" type="text" placeholder="search" />
+              <button>Search</button>
+            </form>
+            <CategoryDropdown handleCategory={handleCategory} />
           </div>
         </div>
       </div>
@@ -42,8 +52,8 @@ const PetListing = () => {
         {/* {
           pet.map(item =><PetCard key={item._id} item={item}></PetCard>)
         } */}
-        
-     <PetListingContainer  category={category}/>
+
+        <PetListingContainer search={search} category={category} />
       </div>
       <Subscribe />
     </div>

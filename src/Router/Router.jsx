@@ -9,6 +9,7 @@ import MyPet from "@/Dashboard/UserDashboard/MyPet/MyPet";
 import Profile from "@/Dashboard/UserDashboard/Profile/Profile";
 import Blog from "@/Page/Blog/Blog";
 import CampaignCardDetails from "@/Page/CampaignCardDetails/CampaignCardDetails";
+import CategoryPage from "@/Page/CategoryPage/CategoryPage";
 import Details from "@/Page/Details/Details";
 import DonationCamping from "@/Page/DonationCamping/DonationCamping";
 import Error from "@/Page/Error/Error";
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
       {
         path: "/details/:id",
         element: <Details />,
+      },
+      {
+        path: "/category/:category",
+        element: <CategoryPage />,
       },
     
       {

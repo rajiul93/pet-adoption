@@ -1,23 +1,68 @@
 import useAuth from "@/Provider/useAuth";
 import useAxiosPublic from "@/Utils/Hook/useAxiosPublic";
 import { useState } from "react";
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css"; // theme css file
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
+
+
+import { DateRange } from 'react-date-range';
+import 'react-date-range/dist/styles.css'; // main css file
+import 'react-date-range/dist/theme/default.css'; // theme css file
 import { ColorRing } from "react-loader-spinner";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const api = import.meta.env.VITE_IMG_API;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${api}`;
 const AddPet = () => {
   const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
-  const [loader, setLoader] = useState(false)
+  const [loader, setLoader] = useState(false);
+ 
+  const today = new Date();
+
+  const [state, setState] = useState([
+    {
+      startDate: today,
+      endDate: today,
+      key: 'selection'
+    }
+  ]);
+const date  = state[0].startDate
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  
+
   const onSubmit = async (data) => {
-    setLoader(true)
+    setLoader(true);
     const imageFile = { image: data.image[0] };
 
     const email = user?.email;
@@ -28,7 +73,7 @@ const AddPet = () => {
     const division = data.division;
     const category = data.category;
     const message = data.message;
-    const status = "waiting"
+    const status = "waiting";
 
     try {
       const res = await axiosPublic.post(image_hosting_api, imageFile, {
@@ -50,13 +95,14 @@ const AddPet = () => {
           category,
           message,
           photoURL,
-          status
+          status,
+          date
         };
-        const res = await axiosPublic.post("/adopt-post", petInfo)
-        console.log(res.data)
+        const res = await axiosPublic.post("/adopt-post", petInfo);
+        console.log(res.data);
         if (res.data.acknowledged) {
-          toast.success("successfully saved")
-          setLoader(false)
+          toast.success("successfully saved");
+          setLoader(false);
         }
       }
     } catch (error) {
@@ -70,6 +116,17 @@ const AddPet = () => {
         <h2 className="text-2xl font-medium mb-4 uppercase">
           Add a New pet for adoption
         </h2>
+      
+
+        <DateRange
+        editableDateInputs={false}
+        onChange={item => setState([item.selection])}
+        moveRangeOnFirstSelection={false}
+        ranges={state}
+        showDateDisplay={false}
+      />
+
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label className="block text-gray-700 font-medium mb-2">Name</label>
@@ -201,21 +258,24 @@ const AddPet = () => {
               disabled={loader}
               className="bg-blue-500 flex justify-center items-center text-white px-4 py-2 rounded-lg hover:bg-blue-600"
             >
-              Submit {loader && <ColorRing
-                      visible={true}
-                      height="40"
-                      width="40"
-                      ariaLabel="color-ring-loading"
-                      wrapperStyle={{}}
-                      wrapperClass="color-ring-wrapper"
-                      colors={[
-                        "#e15b64",
-                        "#f47e60",
-                        "#f8b26a",
-                        "#abbd81",
-                        "#849b87",
-                      ]}
-                    />}
+              Submit{" "}
+              {loader && (
+                <ColorRing
+                  visible={true}
+                  height="40"
+                  width="40"
+                  ariaLabel="color-ring-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="color-ring-wrapper"
+                  colors={[
+                    "#e15b64",
+                    "#f47e60",
+                    "#f8b26a",
+                    "#abbd81",
+                    "#849b87",
+                  ]}
+                />
+              )}
             </button>
           </div>
         </form>

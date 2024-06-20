@@ -3,7 +3,7 @@ const CategoryDropdown = ({handleCategory}) => {
     return (
         <div>
             
-        <div className="mb-4   ">  
+        <div className="   ">  
             <select
             onClick={(e)=>handleCategory(e.target.value)}
             id="gender"
