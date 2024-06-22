@@ -17,13 +17,30 @@ const Campaign = () => {
   const [loader, setLoader] = useState(false)
 
   const onSubmit = async (data) => {
+    const date =data.date;
+    const specificDate = new Date(date)
+
+
+const todayDate = new Date()
+ const otherDate = new Date(todayDate);
+
+
+ const differenceInTime = specificDate.getTime() - otherDate.getTime();
+
+ // Calculate the difference in days
+ const differenceInDays = (differenceInTime / (1000 * 3600 * 24))+1;
+if (differenceInDays<2) {
+  return toast.error("minimum 2 days campaign needed")
+}
+console.log(differenceInDays)
+
+
     const imageFile = { image: data.image[0] };
     const petName =data.petName
     const title =data.title
     const category =data.category
     const sortDes =data.sortDes
-    const date =data.date
-    const maxAmount =parseInt(data.amount)
+    const amount =[]
     const longDes =data.longDes
     const userEmail= user.email;
     const userName = user.displayName
@@ -43,7 +60,7 @@ const Campaign = () => {
           title,
           sortDes,
           date,
-          maxAmount,
+          amount,
           longDes,
           category,
           userEmail,
@@ -159,18 +176,7 @@ const Campaign = () => {
 
    </div>
         </div>
-        <div className="flex w-full mb-6 gap-4">
-          <input
-            type="number"
-            {...register("amount", {required:true})}
- 
-            className="mt-1 block w-full rounded-md border border-slate-300 bg-white px-3 py-4 placeholder-slate-400 shadow-sm placeholder:font-semibold placeholder:text-gray-500 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
-            placeholder="Set your Max amount"
-          />
-          <br />
-          {errors.amount && <span>This field is required price</span>}
-        
-        </div>
+     
         <div className="">
           <textarea
             {...register("longDes", {required:true})}

@@ -8,7 +8,6 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 
 
-import { Calendar } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 
@@ -16,8 +15,7 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 
 const PetUpdate = () => {
   const { user } = useAuth();
-  const [loader, setLoader] = useState(false);
-  const [takeDate, setTakeDate] = useState("")
+  const [loader, setLoader] = useState(false); 
   const { id } = useParams();
   const axiosSecure = useAxiosSecure(); 
 
@@ -25,22 +23,16 @@ const PetUpdate = () => {
   const { data: singleData, isLoading } = useQuery({
     queryKey: ["singleData"],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(`/adopts/${id}`);
+      const { data } = await axiosSecure.get(`/adopts/${id}?email=${user?.email}`,{withCredentials:true});
+      
       return data;
     },
   });
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+ 
+  const { register, handleSubmit, formState: { errors }, } = useForm();
 
 
-  const handleSelect = (date)=>{
-    console.log(date)
-    setTakeDate(date);
-  }
+  
 
 
   const onSubmit = async (data) => {
@@ -54,12 +46,10 @@ const PetUpdate = () => {
     const division = data.division;
     const category = data.category;
     const message = data.message;
-    const status = "waiting";
-    const postDate = takeDate;
+    const status = "waiting"; 
 
     try {
-      const petInfo = {
-        postDate,
+      const petInfo = { 
         email,
         name,
         age,
@@ -89,10 +79,7 @@ const PetUpdate = () => {
     <div>
       <Toaster />
       <div className="bg-white border rounded-lg px-8 py-6 mx-auto my-8 max-w-2xl">
-      <Calendar
-        date={new Date()}
-        onChange={handleSelect} 
-      />
+     
         <h2 className="text-2xl font-medium mb-4 uppercase text-yellow-400">
           Update your pet for adoption
         </h2>

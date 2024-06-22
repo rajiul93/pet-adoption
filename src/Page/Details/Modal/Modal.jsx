@@ -1,15 +1,15 @@
 import useAuth from "@/Provider/useAuth";
 import useAxiosSecure from "@/Utils/Hook/useAxiosSecure";
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
@@ -20,7 +20,8 @@ const Modal = ({pet}) => {
     const axiosSecure = useAxiosSecure()
     const inputRef = useRef(null);
     const {user} = useAuth()
-    const {  photoURL, name,   _id } = pet;
+    const {  photoURL, name,   _id, email } = pet;
+    console.log(email)
   
     const handleClick =async ()=>{
         const adoptersPhone =    inputRef.current.value ;
@@ -47,7 +48,7 @@ const Modal = ({pet}) => {
      <Toaster />
      <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant="outline" className="bg-blue-700 text-white font-semibold">Adoption</Button>
+        {user.email !== email && <Button  variant="outline" className="bg-blue-700 text-white font-semibold">Adoption</Button>}
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -58,7 +59,7 @@ const Modal = ({pet}) => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleClick}>Adopt Confirm</AlertDialogAction>
+          <AlertDialogAction onClick={handleClick}>Adopt Confirm</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

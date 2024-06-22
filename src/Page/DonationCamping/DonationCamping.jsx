@@ -1,11 +1,78 @@
 import Subscribe from "@/Share/Subscribe/Subscribe";
-import useCampaign from "@/Utils/Hook/Campaign/useCampaign";
+import React, { useEffect, useRef } from "react";
+import { useInfiniteQuery } from "react-query";
 import CategoryDropdown from "../PetListing/CategoryDropdown/CategoryDropdown";
 import CampaignCard from "./CampaignCard";
-
 const DonationCamping = () => {
-  const [campaign] = useCampaign()
-  console.log(campaign)
+  // const [campaign] = useCampaign()
+
+  const fetchProducts = async ({ pageParam = 0, } ) => { 
+    const response = await fetch(
+      `http://localhost:5000/donation-for-post?page=${pageParam}&limit=5`
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return {
+      products: data,
+      nextCursor: pageParam + 1, // assuming pages are sequentially numbere
+    };
+  };
+const {
+data,
+error,
+fetchNextPage,
+hasNextPage,
+isFetching,
+isFetchingNextPage,
+status,
+} = useInfiniteQuery(["campaign-pet" ], fetchProducts, {
+getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+});
+const observerElem = useRef();
+useEffect(() => {
+const observer = new IntersectionObserver(
+  (entries) => {
+    if (entries[0].isIntersecting && hasNextPage) {
+      fetchNextPage();
+    }
+  },
+  { threshold: 1.0 }
+);
+
+if (observerElem.current) {
+  observer.observe(observerElem.current);
+}
+return () => {
+  if (observerElem.current) {
+    observer.unobserve(observerElem.current);
+  }
+};
+}, [observerElem, hasNextPage, fetchNextPage]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // console.log(campaign)
   return (
     <div>
       <div className="grid grid-cols-6 gap-6">
@@ -38,9 +105,29 @@ const DonationCamping = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 z-10">
-        {
-          campaign.map(item=> <CampaignCard key={item._id} item={item} />)
-        }
+      {status === "loading" ? (
+            <p>Loading...</p>
+          ) : status === "error" ? (
+            <p>Error: {error.message}</p>
+          ) : (
+            <>
+              {data.pages.map((group, i) => (
+                <React.Fragment key={i}>
+                  {group.products.map((item) => (
+                    <CampaignCard key={item._id} item={item} />
+                  ))}
+                </React.Fragment>
+              ))}
+              <div ref={observerElem} style={{ height: "20px", margin: "10px" }}>
+                {isFetchingNextPage
+                  ? "Loading more..."
+                  : hasNextPage
+                  ? "Load More"
+                  : "Nothing more to load"}
+              </div>
+              <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div>
+            </>
+          )}
 
       </div>
       <Subscribe />
@@ -49,3 +136,5 @@ const DonationCamping = () => {
 };
 
 export default DonationCamping;
+
+// campaign.map(item=> <CampaignCard key={item._id} item={item} />)

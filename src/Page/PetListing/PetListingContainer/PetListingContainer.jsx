@@ -56,7 +56,6 @@ const PetListingContainer = ({category,search}) => {
         <div 
         className="pt-14 grid grid-cols-3 gap-4"
         > 
-        {/* <button onClick={handleCategory}>ckick</button> */}
           {status === "loading" ? (
             <p>Loading...</p>
           ) : status === "error" ? (

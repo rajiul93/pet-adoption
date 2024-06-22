@@ -1,5 +1,6 @@
 import AdminProfile from "@/Dashboard/AdminDashboard/AdminProfile";
 import Dashboard from "@/Dashboard/Dashboard/Dashboard";
+import MyCampaignUpdate from "@/Dashboard/MyCampaignUpdate/MyCampaignUpdate";
 import AddPet from "@/Dashboard/UserDashboard/AddPet/AddPet";
 import AdoptionRequest from "@/Dashboard/UserDashboard/AdoptionRequest/AdoptionRequest";
 import Campaign from "@/Dashboard/UserDashboard/Campaign/Campaign";
@@ -16,8 +17,10 @@ import Error from "@/Page/Error/Error";
 import Home from "@/Page/Home/Home";
 import Login from "@/Page/LoginRegistration/Login/Login";
 import Registration from "@/Page/LoginRegistration/Login/Registration/Registration";
+import PaymentPage from "@/Page/PaymentPage/PaymentPage";
 import PetListing from "@/Page/PetListing/PetListing";
 import PetUpdate from "@/Page/PetUpdate/PetUpdate";
+import AdminRout from "@/PrivetRoute/AdminRout";
 import PrivetRout from "@/PrivetRoute/PrivetRout";
 import { createBrowserRouter } from "react-router-dom";
 import Root from "../Root/Root/Root";
@@ -49,7 +52,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/details/:id",
-        element: <Details />,
+        element:<PrivetRout> <Details /></PrivetRout> ,
       },
       {
         path: "/category/:category",
@@ -59,6 +62,10 @@ export const router = createBrowserRouter([
       {
         path: "/campaign-details/:id",
         element: <CampaignCardDetails />,
+      },
+      {
+        path: "/payment-now/:id",
+        element:   <PrivetRout><PaymentPage /></PrivetRout> ,
       },
     ],
   },
@@ -95,6 +102,10 @@ export const router = createBrowserRouter([
         element: <Campaign />,
       },
       {
+        path: "/dashboard/campaign-update/:id",
+        element: <MyCampaignUpdate />,
+      },
+      {
         path: "/dashboard/my-donation",
         element: <MyDonation />,
       },
@@ -104,7 +115,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard/admin-profile",
-        element: <AdminProfile />,
+        element:<AdminRout> <AdminProfile /> </AdminRout>  ,
       },
       {
         path: "/dashboard/my-create-campaign",

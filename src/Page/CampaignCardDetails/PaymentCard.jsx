@@ -1,3 +1,4 @@
+import useAuth from "@/Provider/useAuth";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,9 +12,20 @@ import {
 import { Button } from "@material-tailwind/react";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import PaymentForm from "./PaymentForm";
-const PaymentCard = () => {
+
+// payment process start hear
+
+
+
+
+
+
+const PaymentCard = ({ id,image }) => {
+  const navigate = useNavigate()
   const [money, setMoney] = useState("");
+  const { user } = useAuth();
   const getMoney = (taka) => {
     if (!taka) {
       setMoney("");
@@ -21,13 +33,21 @@ const PaymentCard = () => {
     setMoney(taka);
   };
 
-  const handlePayment = () => { 
-    const enterAmount = parseInt(money)
-    if (enterAmount<5) {
-      return toast.error("Minimum amount $5")
-      }
-    console.log(enterAmount)
-    // add stripe
+  const handlePayment = async () => {
+    const enterAmount = parseInt(money);
+    if (enterAmount < 5) {
+      return toast.error("Minimum amount $5");
+    }
+ 
+    const newAmount = enterAmount;
+    const donarDetails = {
+      userName: user.displayName,
+      email: user.email,
+      newAmount,
+      image
+    };
+localStorage.setItem("donationDetails", JSON.stringify(donarDetails))
+   navigate(`/payment-now/${id}`)
   };
   return (
     <AlertDialog>
@@ -40,7 +60,10 @@ const PaymentCard = () => {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <PaymentForm getMoney={getMoney} />
+          <PaymentForm getMoney={getMoney} money={money}/>
+
+
+
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>

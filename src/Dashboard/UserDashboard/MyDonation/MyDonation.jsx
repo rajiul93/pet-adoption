@@ -1,12 +1,16 @@
+import Loading from "@/Component/Loading";
+import useAuth from "@/Provider/useAuth";
+import useAxiosSecure from "@/Utils/Hook/useAxiosSecure";
 import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from "@/components/ui/table";
+import { useQuery } from "react-query";
    
   const invoices = [
     {
@@ -54,6 +58,19 @@ import {
   ]
    
 const MyDonation = () => {
+  const axiosSecure= useAxiosSecure()
+  const {user} = useAuth()
+  const {data:myDonationData=[], isLoading} = useQuery({
+    queryKey:["my-donation"],
+    queryFn:async()=>{
+      const {data} = await axiosSecure.get(`/my-donation/${user?.email}`)
+      return data;
+    }
+  })
+
+ if (isLoading) {
+  return <Loading />
+ }
     return (
         <div className=" overflow-x-auto">
         <h2 className="text-center my-14">My Donation </h2>
@@ -61,21 +78,25 @@ const MyDonation = () => {
        <TableCaption>A list of your recent invoices.</TableCaption>
        <TableHeader className="sticky">
          <TableRow>
-           <TableHead className="w-[100px]">Image</TableHead>
-           <TableHead>Status</TableHead>
-           <TableHead>Age</TableHead>
-           <TableHead className="text-right">Action</TableHead>
-           <TableHead className="text-right">Details</TableHead>
+           <TableHead className="w-[100px]">image</TableHead>
+           <TableHead className="w-[100px]">Name</TableHead>
+           <TableHead>Amount</TableHead>
+           <TableHead>transactionId</TableHead>
+           <TableHead className="text-right">campaignId</TableHead> 
+           <TableHead className="text-right">Donar Email</TableHead> 
          </TableRow>
        </TableHeader>
        <TableBody>
-         {invoices.map((invoice) => (
-           <TableRow key={invoice.invoice}>
-             <TableCell className="font-medium">{invoice.invoice}</TableCell>
-             <TableCell>{invoice.paymentStatus}</TableCell>
-             <TableCell>{invoice.paymentMethod}</TableCell>
-             <TableCell className="text-right">{invoice.totalAmount}</TableCell>
-             <TableCell className="text-right">{invoice.totalAmount}</TableCell>
+         {myDonationData.map((invoice) => (
+           <TableRow key={invoice._id}>
+             <TableCell className="font-medium">
+              <img src={invoice?.image} alt="" />
+             </TableCell>
+             <TableCell className="font-medium">{invoice.userName}</TableCell>
+             <TableCell>${invoice.newAmount}</TableCell>
+             <TableCell>{invoice.transactionId}</TableCell>
+             <TableCell className="text-right">{invoice.campaignId}</TableCell> 
+             <TableCell className="text-right">{invoice.email}</TableCell> 
            </TableRow>
          ))}
        </TableBody>

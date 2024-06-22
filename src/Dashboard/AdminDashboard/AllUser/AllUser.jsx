@@ -43,7 +43,7 @@ const AllUser = () => {
     }
   };
 
-  const TABLE_HEAD = ["Member", "Role", "ID", "Action", "Delete"];
+  const TABLE_HEAD = ["Member", "Role", "ID", "Promotion", "Demotion"];
 
   return (
     <div>

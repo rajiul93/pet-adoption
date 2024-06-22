@@ -2,21 +2,20 @@ import useCampaign from "@/Utils/Hook/Campaign/useCampaign";
 
 import { Button } from "@/components/ui/button";
 import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
  
 
 const AllCampaign = () => {
     const [campaign] =useCampaign()
     return (
-        <div>
-            {campaign.length}
+        <div> 
             <Table>
         <TableCaption>A list of your recent invoices.</TableCaption>
         <TableHeader className="sticky">

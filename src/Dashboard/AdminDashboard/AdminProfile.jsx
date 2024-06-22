@@ -3,11 +3,13 @@ import 'react-tabs/style/react-tabs.css';
 import AllCampaign from './AllCampaign/AllCampaign';
 import AllPet from './AllPet/AllPet';
 import AllUser from './AllUser/AllUser';
-import UserStatus from './UserStatus/UserStatus';
 const AdminProfile = () => {
+ 
+
+  
     return (
     <>
-    <UserStatus />
+    {/* <UserStatus /> */}
         <Tabs>
         <TabList>
           <Tab>Users</Tab>

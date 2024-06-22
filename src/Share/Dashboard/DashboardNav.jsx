@@ -1,11 +1,28 @@
+import useAuth from "@/Provider/useAuth";
+import useAxiosSecure from "@/Utils/Hook/useAxiosSecure";
 import { BiDonateHeart } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { FaHouse } from "react-icons/fa6";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { MdDomain, MdOutlineCampaign, MdPets } from "react-icons/md";
 import { VscGitPullRequestGoToChanges } from "react-icons/vsc";
+import { useQuery } from "react-query";
 import { NavLink } from "react-router-dom";
 const DashboardNav = () => {
+  const axiosSecure = useAxiosSecure(); 
+  const { user, loading } = useAuth();
+
+  const { data: isAdmin, isLoading } = useQuery({
+    queryKey: ["isAdmin"],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(
+        `/user-admin/?email=${user?.email}`
+      );
+      return data;
+    },
+  });
+if (isLoading) return <>Loading</>
+
   return (
   
         <>
@@ -76,13 +93,13 @@ const DashboardNav = () => {
               <span className="hidden md:block">Home</span>
             </NavLink>
             <hr />
-            <NavLink
+           {isAdmin.role === "Admin" && <NavLink
               to="/dashboard/admin-profile"
               className="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700"
             >
             <MdDomain className="text-4xl md:text-xl mr-2"/>
               <span className="hidden md:block">Admin</span>
-            </NavLink>
+            </NavLink>}
           </nav>
         </div>
       </div>

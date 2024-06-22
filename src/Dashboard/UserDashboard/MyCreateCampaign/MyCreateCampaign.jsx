@@ -12,18 +12,48 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useQuery } from "react-query";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const MyCreateCampaign = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate()
 
-  const { data: campaigns = [] } = useQuery({
+  const { data: campaigns = [] , refetch} = useQuery({
     queryKey: ["my-campaign"],
     queryFn: async () => {
       const res = await axiosSecure.get(`/my-campaign/${user?.email}`);
       return res.data;
     },
   });
+
+
+  const handleDelete =async(id)=>{
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then(async(result) => {
+
+      if (result.isConfirmed) {
+         await axiosSecure.delete(`/delete-campaign/${id}?email=${user?.email}`)
+         refetch()
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success"
+        });
+      }
+    });
+  }
+const handleDetails= (id)=>{
+navigate(`/campaign-details/${id}`)
+}
 
   return (
     <div className=" overflow-x-auto">
@@ -59,11 +89,14 @@ const MyCreateCampaign = () => {
               </TableCell>
               <TableCell className="text-center">
                 <div className="space-x-1">
+                  <Link to={`/dashboard/campaign-update/${pet._id}`}>
+                  
                   <Button>Update</Button>
-                  <Button className="bg-red-600">Delete</Button>
+                  </Link>
+                  <Button onClick={()=>handleDelete(pet._id)} className="bg-red-600">Delete</Button>
                 </div>
               </TableCell>
-              <TableCell className="text-right">details</TableCell>
+              <TableCell onClick={()=>handleDetails(pet._id)} className="text-right cursor-pointer">details</TableCell>
             </TableRow>
           ))}
         </TableBody>

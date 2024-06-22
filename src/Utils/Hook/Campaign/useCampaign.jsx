@@ -1,9 +1,9 @@
 import { useQuery } from "react-query";
-import useAxiosSecure from "../useAxiosSecure";
+import useAxiosPublic from "../useAxiosPublic";
 
 
 const useCampaign = () => {
-    const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxiosPublic();
 
    const {refetch,
     isPending, 
@@ -11,7 +11,7 @@ const useCampaign = () => {
   } = useQuery({
     queryKey: ["campaign"],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(`/donation-for-post`);
+      const { data } = await axiosPublic.get(`/donation-for-post`);
       return data;
     },
   });
