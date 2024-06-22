@@ -6,7 +6,7 @@ import PetCard from "../PetCard/PetCard";
 const PetListingContainer = ({category,search}) => {
     const fetchProducts = async ({ pageParam = 0, } ) => { 
         const response = await fetch(
-          `http://localhost:5000/pets-limit?page=${pageParam}&limit=5&category=${category}&search=${search}`
+          `https://pets-sable-five.vercel.app/pets-limit?page=${pageParam}&limit=5&category=${category}&search=${search}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");

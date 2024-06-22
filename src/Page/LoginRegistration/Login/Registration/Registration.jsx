@@ -40,7 +40,7 @@ const Registration = () => {
 
       if (res.data.success) {
         const result = await loginWithEmailPassword(email, password);
-        
+        console.log(res?.data?.data?.display_url,)
         if (result) {
           updateProfile(auth.currentUser, {
             displayName: name,

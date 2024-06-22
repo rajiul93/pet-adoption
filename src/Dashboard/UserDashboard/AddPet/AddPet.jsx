@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 
 
-import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { ColorRing } from "react-loader-spinner";
@@ -118,13 +117,13 @@ const date  = state[0].startDate
         </h2>
       
 
-        <DateRange
+        {/* <DateRange
         editableDateInputs={false}
         onChange={item => setState([item.selection])}
         moveRangeOnFirstSelection={false}
         ranges={state}
         showDateDisplay={false}
-      />
+      /> */}
 
 
         <form onSubmit={handleSubmit(onSubmit)}>

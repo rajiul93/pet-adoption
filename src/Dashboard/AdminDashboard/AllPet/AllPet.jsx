@@ -1,3 +1,5 @@
+import useAuth from "@/Provider/useAuth";
+import useAxiosPublic from "@/Utils/Hook/useAxiosPublic";
 import useAxiosSecure from "@/Utils/Hook/useAxiosSecure";
 
 
@@ -14,11 +16,14 @@ import {
 import { FaRegTrashCan } from "react-icons/fa6";
 import { GiConfirmed } from "react-icons/gi";
 import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 const AllPet = () => {
-
+const {user} = useAuth()
     const axiosSecure = useAxiosSecure(); 
+    const axiosPublic = useAxiosPublic(); 
 
-    const { data: AllPet = [] ,isLoading} = useQuery({
+    const { data: AllPet = [] ,isLoading ,refetch} = useQuery({
       queryKey: ["myPet"],
       queryFn: async () => {
         const res = await axiosSecure(`/all-pets`);
@@ -31,6 +36,32 @@ const AllPet = () => {
         console.log(res.data)
     
       }
+
+      const handleDelete = async (id) => {
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            const { data } = await axiosPublic.delete(
+              `/adopt-delete-admin/${id}`
+            );
+            if (data.deletedCount > 0) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success",
+              });
+              refetch();
+            }
+          }
+        });
+      };
     return (
         <div className=" overflow-x-auto"> 
         <Table>
@@ -59,13 +90,17 @@ const AllPet = () => {
                   </TableCell>
                 <TableCell className="text-center">
                 <div className="space-x-1">
+                <Link to={`/dashboard/pet-update/${pet._id}`}>
                     <Button>Update</Button>
-                    <Button className='bg-red-600'>Delete</Button>
+</Link>
+                    <Button onClick={()=>handleDelete(pet._id)} className='bg-red-600'>Delete</Button>
                     </div>
                 </TableCell>
+                <Link to={`/details/${pet._id}`}>
                 <TableCell className="text-right">
                  details
                 </TableCell>
+                </Link>
               </TableRow>
             ))}
           </TableBody>

@@ -87,7 +87,6 @@ const MyPet = () => {
   };
 
   const handleDelete = async (id) => {
-
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -95,31 +94,22 @@ const MyPet = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-    }).then(async(result) => {
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
       if (result.isConfirmed) {
-
-const { data } = await axiosSecure.delete(`/adopt/${id}?email=${user?.email}`);
-    if (data.deletedCount > 0) {
-      Swal.fire({
-        title: "Deleted!",
-        text: "Your file has been deleted.",
-        icon: "success"
-      });
-      refetch();
-    }
-
-
-      
+        const { data } = await axiosSecure.delete(
+          `/adopt/${id}?email=${user?.email}`
+        );
+        if (data.deletedCount > 0) {
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+          refetch();
+        }
       }
     });
-
-
-
-
-
-
-    
   };
   if (isLoading) {
     return <>Loading..........</>;

@@ -1,4 +1,5 @@
 import useCampaign from "@/Utils/Hook/Campaign/useCampaign";
+import useAxiosPublic from "@/Utils/Hook/useAxiosPublic";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -10,10 +11,42 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
  
 
 const AllCampaign = () => {
-    const [campaign] =useCampaign()
+    const [campaign,,refetch] =useCampaign()
+const axiosPublic = useAxiosPublic()
+
+
+
+    const handleDelete =async(id)=>{
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(async(result) => {
+  
+        if (result.isConfirmed) {
+           await axiosPublic.delete(`/delete-campaign-admin/${id}`)
+           refetch()
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success"
+          });
+        }
+      });
+    }
+
+
+
+
     return (
         <div> 
             <Table>
@@ -41,11 +74,17 @@ const AllCampaign = () => {
               </TableCell>
               <TableCell className="text-center">
                 <div className="space-x-1">
+                  <Link  to={`/dashboard/campaign-update/${pet._id}`}>
+                  
                   <Button>Update</Button>
-                  <Button className="bg-red-600">Delete</Button>
+                  </Link>
+                  <Button onClick={()=>handleDelete(pet._id)} className="bg-red-600">Delete</Button>
                 </div>
               </TableCell>
+              <Link to={`/campaign-details/${pet._id}`}>
+              
               <TableCell className="text-right">details</TableCell>
+              </Link>
             </TableRow>
           ))}
         </TableBody>
